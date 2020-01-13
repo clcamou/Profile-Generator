@@ -1,13 +1,13 @@
-//nodes
+//nodes and packages to install 
 const fs = require("fs");
 
 const inquirer = require("inquirer");
 
 const axios = require("axios");
 
-const convertFactory = require("electron-html-to");
+const electron = require("electron-html-to");
 
-const generate = require("./generateHTML.js");
+const generateHTML = require("./generateHTML.js");
 
 let results; 
 
@@ -26,11 +26,37 @@ const questions = [
     },
 ];
 
-//Write the users data to the profile 
-function writeToFile(fileName, data) {
- 
-};
+//Prompt user for name and favorite color 
+function init() {
+    inquirer.prompt(questions)
+    .then(function(data){
+        username = data.username
+        console.log("Username: " + username)
+        color = data.color
+        console.log("Color: " + color)
 
-function init() {}
+        //query to get GitHub data
+        let queryURL = "https://api.github.com/users/" + answers.username;
+        
+        let queryURLRepos = "https://api.github.com/users/" + answers.username + "/repos?per_page=100";
+
+        axios.get(queryURL).then(
+            (response) => {
+
+        })
+    })
+}
 
 init();
+//Write the users data to the profile 
+function writeToFile(fileName, data) {
+ fs.writeFile(fileName, data, 'utf8', function(err) {
+     if (err){
+         return console.log(err);
+     }else {
+         console.log("You Did it!")
+     }
+ })
+};
+
+
