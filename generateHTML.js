@@ -25,7 +25,7 @@ const colors = {
   }
 };
 
-function generateHTML(data) {
+function generateHTML(data, colors) {
   return `<!DOCTYPE html>
 <html lang="en">
    <head>
@@ -170,5 +170,51 @@ function generateHTML(data) {
             zoom: .75; 
           } 
          }
-      </style>`
+      </style>
+      <body>
+          <main>
+            <!--Header with photo-->
+            <div class = "photo-header">
+              <img class = "photo-header" src = ${responseData.data.avatar_url}>
+              <h1>${responseData.data.name}</h1>
+              <div class = "links-nav">
+                <h6 class = "nav-link">${responseData.data.location}</h6>
+                <h6 class = "nav-link"><a href = "${responseData.data.url}" >GitHub</a></h6>
+                <h6 class = "nav-link"><a href = "${responseData.data.blog}" >Portfolio</a></h6>
+              </div>
+            </div>
+           <div class = "container">  
+            <h6>${responseData.data.bio}</h6>
+            <div class = "row">
+              <div class = "col">
+                <div class = "card">
+                  <h1>Public Repositories</h1>
+                  <h5>${responseData.data.public_repos}</h5>
+                </div>
+              </div>
+              <div class = "col">
+                <div class = "card">
+                  <h1>Followers</h1>
+                  <h5>${responseData.data.followers}</h5>
+                </div>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col">
+                <div class = "card">
+                  <h1>GitHub Stars</h1>
+                  <h5>${responseData.data.public_gists}</h5>
+                </div>
+              </div>
+              <div class = "col">
+                <div class = "card">
+                  <h1>Following</h1>
+                  <h5>${responseData.data.following}</h5>
+                </div>
+              </div>
+            </div>
+           </div> 
+          </main>
+        </body>
+      `
         }

@@ -7,9 +7,7 @@ const axios = require("axios");
 
 const electron = require("electron-html-to");
 
-const generateHTML = require("./generateHTML.js");
-
-let results; 
+let generateHTML = require("./generateHTML")
 
 //question objects to find the username and favorite color of the user
 const questions = [
@@ -20,14 +18,24 @@ const questions = [
     },
     {
         type: "list",
-        name: "colors",
+        name: "color",
         message: "What is your favorite color?",
         choices: ["green", "blue", "red", "pink"],
     },
 ];
 
+let writeFunction = function writeToFile(fileName) {
+    fs.writeFile(generateHTML, fileName, function(err) {
+        if (err){
+            console.log(err)
+        } else {
+            console.log("You Did It!")
+        }
+    })
+}
+
 //Prompt user for name and favorite color 
-function init() {
+let init = function init() {
     inquirer.prompt(questions)
     .then(function(data){
         username = data.username
@@ -36,27 +44,21 @@ function init() {
         console.log("Color: " + color)
 
         //query to get GitHub data
-        let queryURL = "https://api.github.com/users/" + answers.username;
-        
-        let queryURLRepos = "https://api.github.com/users/" + answers.username + "/repos?per_page=100";
+        const queryURL = "https://api.github.com/users/" + username;
+        console.log(queryURL)
 
+
+        try {
         axios.get(queryURL).then(
             (response) => {
+            responseData = response;
+            writeFunction(generateHTML, "profile.html")
+            }).catch(err)
+        }
+            catch(error) {
+                console.log(error)
+            }
+        })}
 
-        })
-    })
-}
 
 init();
-//Write the users data to the profile 
-function writeToFile(fileName, data) {
- fs.writeFile(fileName, data, 'utf8', function(err) {
-     if (err){
-         return console.log(err);
-     }else {
-         console.log("You Did it!")
-     }
- })
-};
-
-
