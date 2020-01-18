@@ -1,33 +1,4 @@
-const colors = {
-  green: {
-    wrapperBackground: "#E6E1C3",
-    headerBackground: "#C1C72C",
-    headerColor: "black",
-    photoBorderColor: "#black"
-  },
-  blue: {
-    wrapperBackground: "#5F64D3",
-    headerBackground: "#26175A",
-    headerColor: "white",
-    photoBorderColor: "#73448C"
-  },
-  pink: {
-    wrapperBackground: "#879CDF",
-    headerBackground: "#FF8374",
-    headerColor: "white",
-    photoBorderColor: "#FEE24C"
-  },
-  red: {
-    wrapperBackground: "#DE9967",
-    headerBackground: "#870603",
-    headerColor: "white",
-    photoBorderColor: "white"
-  }
-};
-module.exports = generateHTML;
-
-function generateHTML(responseData) {
-  return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8" />
@@ -53,7 +24,7 @@ function generateHTML(responseData) {
          height: 100%;
          }
          .wrapper {
-         background-color: ${colors[responseData.color].wrapperBackground};
+         background-color: #E6E1C3;
          padding-top: 100px;
          }
          body {
@@ -95,8 +66,8 @@ function generateHTML(responseData) {
          display: flex;
          justify-content: center;
          flex-wrap: wrap;
-         background-color: ${colors[responseData.color].headerBackground};
-         color: ${colors[responseData.color].headerColor};
+         background-color: #C1C72C;
+         color: black;
          padding: 10px;
          width: 95%;
          border-radius: 6px;
@@ -107,7 +78,7 @@ function generateHTML(responseData) {
          border-radius: 50%;
          object-fit: cover;
          margin-top: -75px;
-         border: 6px solid ${colors[responseData.color].photoBorderColor};
+         border: 6px solid #black;
          box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
          }
          .photo-header h1, .photo-header h2 {
@@ -150,8 +121,8 @@ function generateHTML(responseData) {
          .card {
            padding: 20px;
            border-radius: 6px;
-           background-color: ${colors[responseData.color].headerBackground};
-           color: ${colors[responseData.color].headerColor};
+           background-color: #C1C72C;
+           color: black;
            margin: 20px;
          }
          
@@ -176,27 +147,27 @@ function generateHTML(responseData) {
           <main>
             <!--Header with photo-->
             <div class = "photo-header">
-              <img class = "photo-header" src = ${responseData.avatar_url}>
-              <h1>${responseData.name}</h1>
+              <img class = "photo-header" src = https://avatars0.githubusercontent.com/u/56462899?v=4>
+              <h1>Christine Camou</h1>
               <div class = "links-nav">
-                <h6 class = "nav-link">${responseData.location}</h6>
-                <h6 class = "nav-link"><a href = "${responseData.url}" >GitHub</a></h6>
-                <h6 class = "nav-link"><a href = "${responseData.blog}" >Portfolio</a></h6>
+                <h6 class = "nav-link">Tucson, AZ</h6>
+                <h6 class = "nav-link"><a href = "https://api.github.com/users/clcamou" >GitHub</a></h6>
+                <h6 class = "nav-link"><a href = "" >Portfolio</a></h6>
               </div>
             </div>
            <div class = "container">  
-            <h6>${responseData.bio}</h6>
+            <h6>Middle math teacher turned web developer with a passion for problem-solving. </h6>
             <div class = "row">
               <div class = "col">
                 <div class = "card">
                   <h1>Public Repositories</h1>
-                  <h5>${responseData.public_repos}</h5>
+                  <h5>16</h5>
                 </div>
               </div>
               <div class = "col">
                 <div class = "card">
                   <h1>Followers</h1>
-                  <h5>${responseData.followers}</h5>
+                  <h5>9</h5>
                 </div>
               </div>
             </div>
@@ -204,20 +175,17 @@ function generateHTML(responseData) {
               <div class = "col">
                 <div class = "card">
                   <h1>GitHub Stars</h1>
-                  <h5>${responseData.public_gists}</h5>
+                  <h5>0</h5>
                 </div>
               </div>
               <div class = "col">
                 <div class = "card">
                   <h1>Following</h1>
-                  <h5>${responseData.following}</h5>
+                  <h5>15</h5>
                 </div>
               </div>
             </div>
            </div> 
           </main>
         </body>
-      `
-        }
-
-          
+      

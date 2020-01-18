@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 
 const axios = require("axios");
 
-const electron = require("electron-html-to");
+const convertFactory = require("electron-html-to");
 
 let generateHTML = require("./generateHTML.js");
 
@@ -57,9 +57,10 @@ function promptUser(){
 
 //function to call the prompt and use axios 
 promptUser().then(function (data) {
+    console.log(data)
         username = data.username;
         console.log("Username: " + username);
-        color = colors[data.color];
+        color = data.color;
             console.log("Color: " + color);
 
             let queryURL = "https://api.github.com/users/" + username;
@@ -92,8 +93,8 @@ promptUser().then(function (data) {
                 }
 
                 //convert the profile into a PDF
-                let conversion = electron({
-                convertPath: electron.converters.PDF
+                var conversion = convertFactory({
+                converterPath: convertFactory.converters.PDF
                 });
 
                     conversion({ html: newHTML}, function(err, result) {
