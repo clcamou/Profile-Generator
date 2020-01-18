@@ -25,7 +25,7 @@ const colors = {
   }
 };
 
-function generateHTML(data, colors) {
+function generateHTML(colors, responseData, starred) {
   return `<!DOCTYPE html>
 <html lang="en">
    <head>
@@ -52,7 +52,7 @@ function generateHTML(data, colors) {
          height: 100%;
          }
          .wrapper {
-         background-color: ${colors[data.color].wrapperBackground};
+         background-color: ${colors[colors].wrapperBackground};
          padding-top: 100px;
          }
          body {
@@ -94,8 +94,8 @@ function generateHTML(data, colors) {
          display: flex;
          justify-content: center;
          flex-wrap: wrap;
-         background-color: ${colors[data.color].headerBackground};
-         color: ${colors[data.color].headerColor};
+         background-color: ${colors[colors].headerBackground};
+         color: ${colors[colors].headerColor};
          padding: 10px;
          width: 95%;
          border-radius: 6px;
@@ -106,7 +106,7 @@ function generateHTML(data, colors) {
          border-radius: 50%;
          object-fit: cover;
          margin-top: -75px;
-         border: 6px solid ${colors[data.color].photoBorderColor};
+         border: 6px solid ${colors[colors].photoBorderColor};
          box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
          }
          .photo-header h1, .photo-header h2 {
@@ -149,8 +149,8 @@ function generateHTML(data, colors) {
          .card {
            padding: 20px;
            border-radius: 6px;
-           background-color: ${colors[data.color].headerBackground};
-           color: ${colors[data.color].headerColor};
+           background-color: ${colors[colors].headerBackground};
+           color: ${colors[colors].headerColor};
            margin: 20px;
          }
          
@@ -218,3 +218,5 @@ function generateHTML(data, colors) {
         </body>
       `
         }
+
+          module.exports = generateHTML;
