@@ -9,11 +9,34 @@ const electron = require("electron-html-to");
 
 let generateHTML = require("./generateHTML.js");
 
-//convert the profile into a PDF
-let conversion = electron({
-    convertPath: electron.converters.PDF
-});
-    console.log();
+let newHTML;
+let color;
+const colors = {
+    green: {
+      wrapperBackground: "#E6E1C3",
+      headerBackground: "#C1C72C",
+      headerColor: "black",
+      photoBorderColor: "#black"
+    },
+    blue: {
+      wrapperBackground: "#5F64D3",
+      headerBackground: "#26175A",
+      headerColor: "white",
+      photoBorderColor: "#73448C"
+    },
+    pink: {
+      wrapperBackground: "#879CDF",
+      headerBackground: "#FF8374",
+      headerColor: "white",
+      photoBorderColor: "#FEE24C"
+    },
+    red: {
+      wrapperBackground: "#DE9967",
+      headerBackground: "#870603",
+      headerColor: "white",
+      photoBorderColor: "white"
+    }
+  };
 
 //question objects to find the username and favorite color of the user
 function promptUser(){
@@ -25,7 +48,7 @@ function promptUser(){
         },
         {
             type: "list",
-            name: "colors",
+            name: "color",
             message: "What is your favorite color?",
             choices: ["green", "blue", "red", "pink"],
         }
@@ -36,39 +59,54 @@ function promptUser(){
 promptUser().then(function (data) {
         username = data.username;
         console.log("Username: " + username);
-        colors = data.colors;
-        console.log("Color: " + colors);
+        color = colors[data.color];
+            console.log("Color: " + color);
 
-            const queryURL = "https://api.github.com/users/" + username;
+            let queryURL = "https://api.github.com/users/" + username;
             console.log(queryURL);
 
-            const queryURLStarrred = `https://api.github.com/users/${username}/starred`;
+            let queryURLStarrred = `https://api.github.com/users/${username}/starred`;
 
 
-            axios.get(queryURL).then(function(response){
-                axios.get(queryURLStarrred).then(function(responseStarred) {
-                    response.data.starred_url = responseStarred.data.length;
-                    console.log(responseStarred.data.length);
+            axios.get(queryURL)
+            .then(function(response){
+        
+            axios.get(queryURLStarrred).
+            then((responseStarred) => { 
+                //console.log(responseStarred.data.length);})
+                // response.data.starred_url = responseStarred.data.length;
+                let newHTML = generateHTML({color, responseStarred, ...response.data});
+                writeToFile(newHTML);
 
-                    let newHTML = generateHTML(response.data, colors);
-                    writeToFile(newHTML);
+            }).catch(error => {
+                    console.log(error);
+                });
 
-                    function writeToFile(data){
-                        fs.writeFile('profile.html', data, function(error) {
-                            if (error) {
-                                return console.log(err);
-                            } else console.log("You did it!");
-                        });
-                    }
+                //write the file into a html file or give an error
+                function writeToFile(data){
+                    fs.writeFile('profile.html', data, 'utf8', function(err) {
+                    if (err) {
+                        return console.log(err);
+                    } else console.log("You did it!");
+                    });
+                }
+
+                //convert the profile into a PDF
+                let conversion = electron({
+                convertPath: electron.converters.PDF
+                });
 
                     conversion({ html: newHTML}, function(err, result) {
                         if (err) {
-                            return console.log.error(err);
-                        } else console.log("Whoo");
+                            return console.log(err);
+                        } 
 
                     result.stream.pipe(fs.createWriteStream('./profile.pdf'));
                     conversion.kill();
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
                 });
             });
-        });
-});
+    
